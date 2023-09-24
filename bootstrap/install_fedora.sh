@@ -107,11 +107,11 @@ sudo sensors-detect --auto
 
 LogInfo "Configure and install flatpaks"
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
+flatpak install --noninteractive -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
 
 if [ "$SYNDRIVE" ]; then
 	LogInfo "Setup synology drive"
-	flatpak install -y com.spotify.Client com.synology.SynologyDrive
+	flatpak install --noninteractive -y com.spotify.Client com.synology.SynologyDrive
 	mkd ~/.config/autostart
 	cp /var/lib/flatpak/exports/share/applications/com.synology.SynologyDrive.desktop ~/.config/autostart/
 fi
