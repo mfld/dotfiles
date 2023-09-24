@@ -8,7 +8,8 @@ ErrorExit() {
 }
 
 LogInfo() {
-	printf "\n\e[1m[INFO] %s\e[0m\n" "$1"
+	echo ""
+    printf "\e[1m[INFO] %s\e[0m" "$1"
 }
 
 i() {
