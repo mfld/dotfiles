@@ -10,6 +10,7 @@ ErrorExit() {
 LogInfo() {
 	echo ""
 	printf "\e[1m[INFO] %s\e[0m" "$1"
+	echo ""
 }
 
 i() {
