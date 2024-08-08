@@ -17,7 +17,7 @@ i() {
 
 mkd() {
 	test -d "$1" ||
-		mkdir "$1"
+		mkdir -p "$1"
 }
 
 test -f /etc/fedora-release ||
