@@ -109,6 +109,7 @@ sudo sensors-detect --auto
 
 LogInfo "Configure and install flatpaks"
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+export XDG_DATA_DIRS=$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
 flatpak install --noninteractive -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
 
 if [ "$SYNDRIVE" ]; then
