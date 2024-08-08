@@ -57,9 +57,6 @@ gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
 metadata_expire=1h
 EOF
 
-LogInfo "Install multimedia plugins"
-sudo dnf -y group upgrade --with-optional Multimedia
-
 # https://docs.fedoraproject.org/en-US/quick-docs/rpmfusion-setup/#_enabling_the_rpm_fusion_repositories_using_command_line_utilities
 LogInfo "Install from rpmfusion"
 i https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm # rpm fusion free
