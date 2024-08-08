@@ -72,6 +72,7 @@ i google-roboto-fonts google-roboto-fonts tilix gnome-tweaks vim-enhanced neovim
   gnome-console gnome-software gnome-system-monitor gnome-disk-utility @fonts mesa-dri-drivers mesa-va-drivers
 
 LogInfo "Setup graphics"
+sudo systemctl set-default graphical.target
 case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 	*Radeon*)
 		sudo rm -f /etc/yum.repos.d/rpmfusion-nonfree-nvidia-driver.repo
@@ -81,9 +82,6 @@ case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 	*Virtio*)
 		i qemu-device-display-qxl ;;
 esac
-
-LogInfo "Boot to GUI"
-sudo systemctl set-default graphical.target
 
 if [ -n "$AUTOFS" ]; then
 	LogInfo "Setup autofs"
@@ -109,8 +107,7 @@ sudo sensors-detect --auto
 
 LogInfo "Configure and install flatpaks"
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-export XDG_DATA_DIRS=$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
-flatpak install --noninteractive -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
+sudo flatpak install --noninteractive -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
 
 if [ "$SYNDRIVE" ]; then
 	LogInfo "Setup synology drive"
