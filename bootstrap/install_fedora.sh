@@ -82,6 +82,9 @@ case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 		i qemu-device-display-qxl ;;
 esac
 
+LogInfo "Boot to GUI"
+sudo systemctl set-default graphical.target
+
 if [ -n "$AUTOFS" ]; then
 	LogInfo "Setup autofs"
 	i autofs
@@ -134,6 +137,7 @@ systemd-tmpfiles --user --boot --remove --create
 
 LogInfo "Mask tracker services"
 systemctl --user mask tracker-extract-3.service tracker-miner-fs-3.service tracker-miner-rss-3.service tracker-writeback-3.service tracker-xdg-portal-3.service tracker-miner-fs-control-3.service
+
 
 LogInfo "Reboot in 5 minutes"
 shutdown -r +5
