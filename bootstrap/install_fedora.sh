@@ -66,10 +66,12 @@ sudo dnf -y groupupdate sound-and-video
 
 LogInfo "Install packages"
 i google-roboto-fonts google-roboto-fonts tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome-extensions-app \
-  smartmontools lm_sensors bat gnome-shell-extension-appindicator mplayer libreoffice-draw iotop fio ioping python3-pip blender codium krita vim-default-editor \
-  davfs2 fwupd youtube-dl ethtool telnet pwgen p7zip make @virtualization NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools golang-github-prometheus-node-exporter \
-  gnome-shell ffmpegthumbnailer file-roller gnome-console gnome-system-monitor gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
-  gnome-console gnome-software gnome-system-monitor gnome-disk-utility @fonts mesa-dri-drivers mesa-va-drivers
+  smartmontools lm_sensors bat gnome-shell-extension-appindicator mplayer iotop fio ioping python3-pip blender codium krita vim-default-editor \
+  davfs2 fwupd youtube-dl ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools golang-github-prometheus-node-exporter \
+  gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
+  gnome-console gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut
+
+sudo systemctl enable  libvirtd.service
 
 LogInfo "Setup graphics"
 sudo systemctl set-default graphical.target
@@ -132,10 +134,6 @@ mkd ~/go
 
 systemctl --user restart systemd-tmpfiles-clean.service
 systemd-tmpfiles --user --boot --remove --create
-
-LogInfo "Mask tracker services"
-systemctl --user mask tracker-extract-3.service tracker-miner-fs-3.service tracker-miner-rss-3.service tracker-writeback-3.service tracker-xdg-portal-3.service tracker-miner-fs-control-3.service
-
 
 LogInfo "Reboot in 5 minutes"
 shutdown -r +5
