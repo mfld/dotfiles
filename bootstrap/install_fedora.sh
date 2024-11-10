@@ -12,7 +12,7 @@ LogInfo() {
 }
 
 i() {
-	sudo dnf install -y --setopt=install_weak_deps=False --allowerasing --best "$@"
+	sudo dnf install -y --setopt=install_weak_deps=False --best "$@"
 }
 
 mkd() {
@@ -61,7 +61,7 @@ EOF
 LogInfo "Install from rpmfusion"
 i https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm # rpm fusion free
 i https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm   # rpm fusion non-free
-sudo dnf -y --allowerasing --best groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf -y --best groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 sudo dnf -y groupupdate sound-and-video
 
 LogInfo "Install packages"
@@ -71,7 +71,7 @@ i google-roboto-fonts google-roboto-fonts tilix gnome-tweaks vim-enhanced neovim
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
   gnome-console gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut
 
-sudo systemctl enable  libvirtd.service
+sudo systemctl enable libvirtd.service
 
 LogInfo "Setup graphics"
 sudo systemctl set-default graphical.target
