@@ -63,7 +63,7 @@ LogInfo "Install from rpmfusion"
 i https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm # rpm fusion free
 i https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm   # rpm fusion non-free
 # sudo dnf -y --best multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-sudo dnf -y sound-and-video
+#sudo dnf -y sound-and-video
 sudo dnf -y group install multimedia
 
 # TODO: possibly nano-default-editor package needs removing?
