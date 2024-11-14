@@ -91,11 +91,10 @@ esac
 if [ -n "$AUTOFS" ]; then
 	LogInfo "Setup autofs"
 	i autofs
-	sudo tee /etc/auto.master <<-EOF
-	/n   /etc/autofs/n
+	sudo tee /etc/auto.master.d/n.autofs <<-EOF
+	/n   /etc/autofs.n --timeout=60
 	EOF
-	mkd /etc/autofs
-	sudo tee /etc/autofs/n <<-EOF
+	sudo tee /etc/autofs.n <<-EOF
 	* -rw,intr,hard,nosuid $AUTOFS/&
 	EOF
 	sudo systemctl enable --now autofs.service
