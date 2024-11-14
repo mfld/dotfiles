@@ -111,7 +111,7 @@ sudo sensors-detect --auto
 
 LogInfo "Configure and install flatpaks"
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak install --noninteractive -y com.makemkv.MakeMKV com.obsproject.Studio com.spotify.Client md.obsidian.Obsidian
+sudo flatpak install --noninteractive -y com.makemkv.MakeMKV com.spotify.Client md.obsidian.Obsidian
 
 if [ "$SYNDRIVE" ]; then
 	LogInfo "Setup synology drive"
