@@ -57,22 +57,18 @@ gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
 metadata_expire=1h
 EOF
 
-# TODO: is installing multimedia different?
 # https://docs.fedoraproject.org/en-US/quick-docs/rpmfusion-setup/#_enabling_the_rpm_fusion_repositories_using_command_line_utilities
 LogInfo "Install from rpmfusion"
 i https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm # rpm fusion free
 i https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm   # rpm fusion non-free
-# sudo dnf -y --best multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-#sudo dnf -y sound-and-video
-sudo dnf -y group install multimedia
 
-# TODO: possibly nano-default-editor package needs removing?
 LogInfo "Install packages"
 i google-roboto-fonts google-roboto-fonts tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome-extensions-app \
   smartmontools lm_sensors bat gnome-shell-extension-appindicator mplayer iotop fio ioping python3-pip blender codium krita vim-default-editor \
   davfs2 fwupd youtube-dl ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
-  gnome-console gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox totem
+  gnome-console gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox totem eog \
+  @multimedia
 
 sudo systemctl enable libvirtd.service
 
