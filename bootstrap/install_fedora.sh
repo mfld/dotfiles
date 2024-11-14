@@ -85,7 +85,7 @@ case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 	*NVIDIA*)
 		i akmod-nvidia ;;
 	*Virtio*)
-		i qemu-device-display-qxl ;;
+		i qemu-device-display-qxl spice-vdagent ;;
 esac
 
 if [ -n "$AUTOFS" ]; then
