@@ -105,7 +105,7 @@ LogInfo "Remove leaf packages"
 sudo dnf autoremove -y
 
 LogInfo "Add user to groups"
-sudo usermod -aG davfs2 libvirt "$USER"
+sudo usermod -aG davfs2,libvirt "$USER"
 
 LogInfo "Setup lm-sensors"
 sudo sensors-detect --auto
