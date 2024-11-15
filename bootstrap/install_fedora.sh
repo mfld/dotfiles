@@ -19,7 +19,7 @@ NMBridge() {
 	IF=$(basename /sys/class/net/en*)
 	sudo nmcli connection add type bridge ifname br0 stp no
 	sudo nmcli connection add type bridge-slave ifname $IF master br0
-	sudo nmcli connection down $IF
+	sudo nmcli device disconnect $IF
 	sudo nmcli connection up bridge-br0
 }
 
