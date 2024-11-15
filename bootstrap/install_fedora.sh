@@ -15,6 +15,17 @@ i() {
 	sudo dnf install -y --allowerasing --setopt=install_weak_deps=False --best "$@"
 }
 
+NM_Bridge() {
+	test -L /sys/class/net/br0 &&
+	  echo "brige already setup, skipping"; return
+ 
+	IF=$(basename /sys/class/net/en*)
+	sudo nmcli connection add type bridge ifname br0 stp no
+	sudo nmcli connection add type bridge-slave ifname $IF master br0
+	sudo nmcli connection down $IF
+	sudo nmcli connection up bridge-br0
+}
+
 mkd() {
 	test -d "$1" ||
 		mkdir -p "$1"
@@ -68,7 +79,7 @@ i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome
   davfs2 fwupd youtube-dl ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
   gnome-console gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox mozilla-ublock-origin \
-  mozilla-privacy-badger.noarch totem eog @multimedia
+  mozilla-privacy-badger.noarch totem eog wget @multimedia
 
 sudo systemctl enable libvirtd.service
 
@@ -85,11 +96,7 @@ case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 esac
 
 LogInfo "Setup bridge interface"
-IF=$(basename /sys/class/net/en*)
-sudo nmcli connection add type bridge ifname br0 stp no
-sudo nmcli connection add type bridge-slave ifname $IF master br0
-sudo nmcli connection down $IF
-sudo nmcli connection up bridge-br0
+NMBridge
 
 if [ -n "$AUTOFS" ]; then
 	LogInfo "Setup autofs"
