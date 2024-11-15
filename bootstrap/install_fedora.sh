@@ -20,7 +20,7 @@ NMBridge() {
 	sudo nmcli connection add type bridge ifname br0 stp no
 	sudo nmcli connection add type bridge-slave ifname $IF master br0
 	sudo nmcli device disconnect $IF
-	sudo nmcli connection up bridge-br0
+	sudo nmcli connection up bridge-slave-$IF
 }
 
 mkd() {
