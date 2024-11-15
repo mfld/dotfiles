@@ -86,9 +86,8 @@ esac
 
 LogInfo "Setup bridge interface"
 IF=$(basename /sys/class/net/en*)
-nmcli connection add type bridge ifname br0 stp no
-nmcli connection add type bridge-slave ifname $IF master br0
-nmcli connection show --active
+sudo nmcli connection add type bridge ifname br0 stp no
+sudo nmcli connection add type bridge-slave ifname $IF master br0
 sudo nmcli connection down $IF
 sudo nmcli connection up bridge-br0
 
