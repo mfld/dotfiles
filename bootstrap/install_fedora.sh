@@ -117,7 +117,8 @@ LogInfo "Add user to groups"
 sudo usermod -aG davfs2,libvirt "$USER"
 
 LogInfo "Setup lm-sensors"
-sudo sensors-detect --auto
+systemd-detect-virt -q ||
+  sudo sensors-detect --auto
 
 LogInfo "Configure and install flatpaks"
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
