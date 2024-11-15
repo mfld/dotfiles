@@ -15,7 +15,7 @@ i() {
 	sudo dnf install -y --allowerasing --setopt=install_weak_deps=False --best "$@"
 }
 
-NM_Bridge() {
+NMBridge() {
 	test -L /sys/class/net/br0 &&
 	  echo "brige already setup, skipping"; return
  
