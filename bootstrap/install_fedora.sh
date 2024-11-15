@@ -16,9 +16,6 @@ i() {
 }
 
 NMBridge() {
-	test -L /sys/class/net/br0 &&
-	  echo "brige already setup, skipping"; return
- 
 	IF=$(basename /sys/class/net/en*)
 	sudo nmcli connection add type bridge ifname br0 stp no
 	sudo nmcli connection add type bridge-slave ifname $IF master br0
@@ -96,7 +93,8 @@ case $(lspci|grep ' VGA '| sed -e 's/.*VGA compatible controller://') in
 esac
 
 LogInfo "Setup bridge interface"
-NMBridge
+test -L /sys/class/net/br0 ||
+  NMBridge
 
 if [ -n "$AUTOFS" ]; then
 	LogInfo "Setup autofs"
