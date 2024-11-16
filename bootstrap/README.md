@@ -38,9 +38,11 @@ Sample when Synology drive already holds your files and folders.
 ```sh
 cd # go to home directory
 rmdir Documents
+rmdir .ssh
 rm bashrc bash_history
 
 ln -s drive/documents documents
 ln -s drive/bashrc .bashrc
 ln -s drive/bash_history .bash_history
+ln -s drive/ssh .ssh
 ```
