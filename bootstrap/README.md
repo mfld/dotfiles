@@ -27,17 +27,20 @@ Sample on fresh install.
 cd # go to home directory
 mv Documents drive/
 mv .bashrc drive/bashrc
+mv .bash_history drive/bash_history
 
 ln -s drive/Documents Documents
 ln -s drive/bashrc .bashrc
+ln -s drive/bash_history .bash_history
 ```
 
 Sample when Synology drive already holds your files and folders.
 ```sh
 cd # go to home directory
 rmdir Documents
-rm bashrc
+rm bashrc bash_history
 
 ln -s drive/documents documents
 ln -s drive/bashrc .bashrc
+ln -s drive/bash_history .bash_history
 ```
