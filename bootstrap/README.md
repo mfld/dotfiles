@@ -1,11 +1,43 @@
 # bootstrap
 
-sample usage without extra options
+sample usage without extra options.
 ```sh
 curl https://raw.githubusercontent.com/mfld/dotfiles/refs/heads/main/bootstrap/install_fedora.sh | sh
 ```
-sample usage to setup autofs and synology drive service
+
+WITH AUTOFS
 ```sh
-curl https://raw.githubusercontent.com/mfld/dotfiles/refs/heads/main/bootstrap/install_fedora.sh | SYNDRIVE=1 AUTOFS="server.example:/volume" sh
+curl https://raw.githubusercontent.com/mfld/dotfiles/refs/heads/main/bootstrap/install_fedora.sh | AUTOFS="server.example:/volume" sh
 ```
-**NOTE:** Remember you local UID should correspond to that on Synology (NFS).
+NFS-shares are then available under `/n/<path>`.
+
+**NOTE:** Ensure your local UID corresponds to that of Synology (NFS).
+
+WITH SYNOLOGY DRIVE
+sample usage to setup autofs and synology drive service.
+```sh
+curl https://raw.githubusercontent.com/mfld/dotfiles/refs/heads/main/bootstrap/install_fedora.sh | AUTOFS="server.example:/volume" SYNDRIVE=1 sh
+```
+`SYNDRIVE=1` or `SYNDRIVE=true` is used to install synology drive and start the service at login.
+
+After setup, create symlinks to the Synology Drive folder for sensitive files.
+
+Sample on fresh install.
+```sh
+cd # go to home directory
+mv Documents drive/
+mv .bashrc drive/bashrc
+
+ln -s drive/Documents Documents
+ln -s drive/bashrc .bashrc
+```
+
+Sample when Synology drive already holds your files and folders.
+```sh
+cd # go to home directory
+rmdir Documents
+rm bashrc
+
+ln -s drive/documents documents
+ln -s drive/bashrc .bashrc
+```
