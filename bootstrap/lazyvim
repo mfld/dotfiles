@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# https://www.lazyvim.org/installation
+
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
