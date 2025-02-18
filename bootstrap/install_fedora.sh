@@ -73,7 +73,7 @@ i https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rp
 LogInfo "Install packages"
 i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome-extensions-app \
   smartmontools lm_sensors bat gnome-shell-extension-appindicator mplayer iotop fio ioping python3-pip blender codium krita vim-default-editor \
-  davfs2 fwupd youtube-dl ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
+  davfs2 fwupd ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
   ptyxis gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox mozilla-ublock-origin \
   mozilla-privacy-badger.noarch totem loupe wget pciutils audacity gnome-calculator gnome-characters evince tar podman node-exporter net-tools git-core fzf \
