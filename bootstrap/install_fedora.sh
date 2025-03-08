@@ -98,11 +98,11 @@ case $(lspci | grep ' VGA ' | sed -e 's/.*VGA compatible controller://') in
   # https://fedoraproject.org/wiki/SIGs/HC
   sudo usermod -a -G render,video $LOGNAME
   sudo rm -f /etc/yum.repos.d/rpmfusion-nonfree-nvidia-driver.repo
-  i rocm-hip rocm-devel rocm-hip rocm-hip-devel radeontop rocminfo rocm-opencl
+  i rocm-hip rocm-hip-devel radeontop rocminfo rocm-opencl
 
   # https://rpmfusion.org/Howto/Multimedia#Hardware_codecs_with_AMD_.28mesa.29
-  i swap mesa-va-drivers mesa-va-drivers-freeworld
-  i swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+  sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+  sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
   ;;
 *NVIDIA*)
   i akmod-nvidia
