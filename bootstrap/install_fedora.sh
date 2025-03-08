@@ -12,7 +12,7 @@ LogInfo() {
 }
 
 i() {
-  sudo dnf install -y --allowerasing --setopt=install_weak_deps=False --best "$@"
+  sudo dnf install -y --allowerasing --setopt=install_weak_deps=False --best --exclude=PackageKit-gstreamer-plugin "$@"
 }
 
 NMBridge() {
@@ -76,11 +76,18 @@ i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome
   davfs2 fwupd ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
   ptyxis gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox mozilla-ublock-origin \
-  mozilla-privacy-badger.noarch totem loupe wget pciutils audacity gnome-calculator gnome-characters evince tar podman node-exporter net-tools git-core fzf \
-  @multimedia usbutils gvfs-mtp plymouth-theme-breeze plymouth-system-theme rsync fzf gnome-icon-theme nvtop tree
+  mozilla-privacy-badger mozilla-noscript totem loupe wget pciutils audacity gnome-calculator gnome-characters evince tar podman node-exporter net-tools git-core fzf \
+  @multimedia usbutils gvfs-mtp plymouth-theme-breeze plymouth-system-theme rsync fzf gnome-icon-theme nvtop tree libva-utils bind9-next-utils
 
 sudo systemctl enable libvirtd.service node_exporter.service
 sudo firewall-cmd --permanent --zone=public --add-port=9100/tcp
+
+LogInfo "Configure Firefox preferences"
+sudo mkdir -p /etc/firefox/defaults/pref
+sudo tee /etc/firefox/defaults/pref/system.js <<-EOF
+pref("extensions.pocket.enabled", false);
+pref("app.normandy.enabled", false);
+EOF
 
 LogInfo "Setup graphics"
 sudo systemctl set-default graphical.target
@@ -92,6 +99,10 @@ case $(lspci | grep ' VGA ' | sed -e 's/.*VGA compatible controller://') in
   sudo usermod -a -G render,video $LOGNAME
   sudo rm -f /etc/yum.repos.d/rpmfusion-nonfree-nvidia-driver.repo
   i rocm-hip rocm-devel rocm-hip rocm-hip-devel radeontop rocminfo rocm-opencl
+
+  # https://rpmfusion.org/Howto/Multimedia#Hardware_codecs_with_AMD_.28mesa.29
+  i swap mesa-va-drivers mesa-va-drivers-freeworld
+  i swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
   ;;
 *NVIDIA*)
   i akmod-nvidia
