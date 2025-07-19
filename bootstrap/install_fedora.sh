@@ -123,7 +123,7 @@ if [ -n "$AUTOFS" ]; then
 	/n   /etc/autofs.n --timeout=60
 	EOF
   sudo tee /etc/autofs.n <<-EOF
-	* -rw,intr,hard,nosuid $AUTOFS/&
+	* -rw,hard,nosuid $AUTOFS/&
 	EOF
   sudo systemctl enable --now autofs.service
 fi
