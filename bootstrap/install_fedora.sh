@@ -77,7 +77,7 @@ i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome
   gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
   ptyxis gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers shotcut firefox mozilla-ublock-origin \
   mozilla-privacy-badger mozilla-noscript totem loupe wget pciutils audacity gnome-calculator gnome-characters evince tar podman node-exporter net-tools git-core fzf \
-  @multimedia usbutils gvfs-mtp plymouth-theme-breeze plymouth-system-theme rsync fzf gnome-icon-theme nvtop tree libva-utils bind9-next-utils
+  @multimedia usbutils gvfs-mtp plymouth-theme-breeze plymouth-system-theme rsync fzf gnome-icon-theme nvtop tree libva-utils bind9-next-utils mesa-vulkan-drivers
 
 sudo systemctl enable libvirtd.service node_exporter.service
 sudo firewall-cmd --permanent --zone=public --add-port=9100/tcp
