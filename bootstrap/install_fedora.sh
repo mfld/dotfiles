@@ -81,6 +81,7 @@ i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome
 
 sudo systemctl enable libvirtd.service node_exporter.service
 sudo firewall-cmd --permanent --zone=public --add-port=9100/tcp
+sudo firewall-cmd --reload
 
 LogInfo "Configure Firefox preferences"
 sudo mkdir -p /etc/firefox/defaults/pref
