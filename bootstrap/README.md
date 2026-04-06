@@ -11,7 +11,7 @@ curl https://raw.githubusercontent.com/mfld/dotfiles/refs/heads/main/bootstrap/i
 ```
 NFS-shares are then available under `/n/<path>`.
 
-**NOTE:** Ensure your local UID corresponds to that of Synology (NFS).
+**NOTE:** Ensure your local UID corresponds to that of your NAS (NFS).
 
 WITH SYNOLOGY DRIVE
 sample usage to setup autofs and synology drive service.

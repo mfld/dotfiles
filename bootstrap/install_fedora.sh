@@ -21,7 +21,7 @@ i() {
 }
 
 NMBridge() {
-  IF=$(basename /sys/class/net/en*)
+  IF=$(ip route show default | awk '{print $5}')
   sudo nmcli connection add type bridge ifname br0 stp no
   sudo nmcli connection add type bridge-slave ifname $IF master br0
   sudo nmcli device disconnect $IF
@@ -32,6 +32,31 @@ mkd() {
   test -d "$1" ||
     mkdir -p "$1"
 }
+
+packages=(
+  # Desktop & Browser
+  tilix gnome-tweaks gnome-extensions-app gnome-shell-extension-appindicator \
+  gnome-software gnome-system-monitor gnome-disk-utility gnome-weather \
+  gnome-calculator gnome-characters gnome-pomodoro gnome-text-editor \
+  nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
+  gnome-icon-theme ptyxis file-roller totem loupe evince \
+  firefox mozilla-ublock-origin mozilla-privacy-badger mozilla-noscript \
+  \
+  # Development & Terminal
+  vim-enhanced neovim vim-default-editor bat fzf htop ncdu iotop nvtop tree \
+  wget tar unzip make git-core golang python3-pip podman podman-docker \
+  node-exporter codium p7zip perl-HTML-Parser \
+  \
+  # Multimedia
+  ffmpeg ffmpegthumbnailer mplayer libavcodec-freeworld @multimedia \
+  audacity blender krita mesa-dri-drivers mesa-va-drivers mesa-vulkan-drivers libva-utils \
+  \
+  # System & Networking
+  kernel-tools python3-dnf-plugin-versionlock fwupd ethtool net-tools usbutils \
+  pciutils smartmontools lm_sensors cifs-utils gvfs-mtp gvfs-smb \
+  rsync pwgen telnet bind9-next-utils @virtualization libvirt-daemon NetworkManager-tui \
+  ioping fio @fonts plymouth-theme-breeze plymouth-system-theme
+)
 
 test -f /etc/fedora-release ||
   ErrorExit "run on fedora based distribution"
@@ -76,14 +101,10 @@ i https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %
 i https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm # rpm fusion non-free
 
 LogInfo "Install packages"
-i tilix gnome-tweaks vim-enhanced neovim ffmpeg htop ncdu perl-HTML-Parser gnome-extensions-app \
-  smartmontools lm_sensors bat gnome-shell-extension-appindicator mplayer iotop fio ioping python3-pip blender codium krita vim-default-editor \
-  davfs2 fwupd ethtool telnet pwgen p7zip make @virtualization libvirt-daemon NetworkManager-tui python3-dnf-plugin-versionlock kernel-tools \
-  gnome-shell ffmpegthumbnailer file-roller gnome-text-editor libavcodec-freeworld nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
-  ptyxis gnome-software gnome-system-monitor gnome-disk-utility gnome-weather @fonts mesa-dri-drivers mesa-va-drivers firefox mozilla-ublock-origin golang \
-  mozilla-privacy-badger mozilla-noscript totem loupe wget pciutils audacity gnome-calculator gnome-characters evince tar podman node-exporter net-tools git-core fzf podman-docker \
-  @multimedia usbutils cifs-utils gvfs-mtp gvfs-smb plymouth-theme-breeze plymouth-system-theme rsync fzf gnome-icon-theme nvtop tree libva-utils bind9-next-utils mesa-vulkan-drivers \
-  gnome-pomodoro unzip cifs-utils
+i "${packages[@]}"
+
+LogInfo "Add user to groups"
+sudo usermod -aG libvirt "$USER"
 
 sudo systemctl enable libvirtd.service node_exporter.service
 sudo firewall-cmd --permanent --zone=public --add-port=9100/tcp
@@ -92,7 +113,6 @@ sudo firewall-cmd --reload
 LogInfo "Configure Firefox preferences"
 sudo mkdir -p /etc/firefox/defaults/pref
 sudo tee /etc/firefox/defaults/pref/system.js <<-EOF
-pref("extensions.pocket.enabled", false);
 pref("app.normandy.enabled", false);
 EOF
 
@@ -106,7 +126,7 @@ sudo plymouth-set-default-theme breeze-text -R
 case $(lspci | grep ' VGA ' | sed -e 's/.*VGA compatible controller://') in
 *Radeon*)
   # https://fedoraproject.org/wiki/SIGs/HC
-  sudo usermod -a -G render,video $LOGNAME
+  sudo usermod -a -G render,video "$USER"
   sudo rm -f /etc/yum.repos.d/rpmfusion-nonfree-nvidia-driver.repo
   i rocm-hip rocm-hip-devel radeontop rocminfo rocm-opencl hiprt
 
@@ -123,7 +143,7 @@ case $(lspci | grep ' VGA ' | sed -e 's/.*VGA compatible controller://') in
 esac
 
 LogInfo "Setup bridge interface"
-test -L /sys/class/net/br0 ||
+ip link show br0 >/dev/null 2>&1 ||
   NMBridge
 
 if [ -n "$AUTOFS" ]; then
@@ -141,9 +161,6 @@ fi
 LogInfo "Remove leaf packages"
 sudo dnf autoremove -y
 
-LogInfo "Add user to groups"
-sudo usermod -aG davfs2,libvirt "$USER"
-
 LogInfo "Setup lm-sensors"
 systemd-detect-virt -q ||
   sudo sensors-detect --auto
@@ -155,7 +172,7 @@ sudo flatpak install --noninteractive -y com.makemkv.MakeMKV com.spotify.Client 
 
 if [ "$SYNDRIVE" ]; then
   LogInfo "Setup synology drive"
-  flatpak install --noninteractive -y com.spotify.Client com.synology.SynologyDrive
+  flatpak install --noninteractive -y com.synology.SynologyDrive
   mkd ~/.config/autostart
   cp /var/lib/flatpak/exports/share/applications/com.synology.SynologyDrive.desktop ~/.config/autostart/
 fi
@@ -177,7 +194,10 @@ mkd ~/go
 systemctl --user restart systemd-tmpfiles-clean.service
 systemd-tmpfiles --user --boot --remove --create
 
-./lazyvim
+LogInfo "Setup LazyVim"
+# https://www.lazyvim.org/installation
+[ -d "$HOME/.config/nvim" ] || 
+  git clone https://github.com/LazyVim/starter ~/.config/nvim; rm -rf ~/.config/nvim/.git
 
 LogInfo "Reboot in 5 minutes"
-shutdown -r +5
+sudo shutdown -r +5
