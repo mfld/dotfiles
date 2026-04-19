@@ -35,26 +35,26 @@ mkd() {
 
 packages=(
   # Desktop & Browser
-  tilix gnome-tweaks gnome-extensions-app gnome-shell-extension-appindicator \
-  gnome-software gnome-system-monitor gnome-disk-utility gnome-weather \
-  gnome-calculator gnome-characters gnome-pomodoro gnome-text-editor \
-  nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome \
-  gnome-icon-theme ptyxis file-roller totem loupe evince \
-  firefox mozilla-ublock-origin mozilla-privacy-badger mozilla-noscript \
-  \
+  tilix gnome-tweaks gnome-extensions-app gnome-shell-extension-appindicator
+  gnome-software gnome-system-monitor gnome-disk-utility gnome-weather
+  gnome-calculator gnome-characters gnome-pomodoro gnome-text-editor
+  nautilus xdg-user-dirs xdg-user-dirs-gtk desktop-backgrounds-gnome
+  gnome-icon-theme ptyxis file-roller totem loupe evince cups
+  firefox mozilla-ublock-origin mozilla-privacy-badger mozilla-noscript
+
   # Development & Terminal
-  vim-enhanced neovim vim-default-editor bat fzf htop ncdu iotop nvtop tree \
-  wget tar unzip make git-core golang python3-pip podman podman-docker \
-  node-exporter codium p7zip perl-HTML-Parser \
-  \
+  vim-enhanced neovim vim-default-editor bat fzf htop ncdu iotop nvtop tree
+  wget tar unzip make git-core golang python3-pip podman podman-docker
+  node-exporter codium p7zip perl-HTML-Parser
+
   # Multimedia
-  ffmpeg ffmpegthumbnailer mplayer libavcodec-freeworld @multimedia \
-  audacity blender krita mesa-dri-drivers mesa-va-drivers mesa-vulkan-drivers libva-utils \
-  \
+  ffmpeg ffmpegthumbnailer mplayer libavcodec-freeworld @multimedia
+  audacity blender krita mesa-dri-drivers mesa-va-drivers mesa-vulkan-drivers libva-utils
+
   # System & Networking
-  kernel-tools python3-dnf-plugin-versionlock fwupd ethtool net-tools usbutils \
-  pciutils smartmontools lm_sensors cifs-utils gvfs-mtp gvfs-smb \
-  rsync pwgen telnet bind9-next-utils @virtualization libvirt-daemon NetworkManager-tui \
+  kernel-tools python3-dnf-plugin-versionlock fwupd ethtool net-tools usbutils
+  pciutils smartmontools lm_sensors cifs-utils gvfs-mtp gvfs-smb
+  rsync pwgen telnet bind9-next-utils @virtualization libvirt-daemon NetworkManager-tui
   ioping fio @fonts plymouth-theme-breeze plymouth-system-theme
 )
 
@@ -106,7 +106,7 @@ i "${packages[@]}"
 LogInfo "Add user to groups"
 sudo usermod -aG libvirt "$USER"
 
-sudo systemctl enable libvirtd.service node_exporter.service
+sudo systemctl enable libvirtd.service node_exporter.service cups.service
 sudo firewall-cmd --permanent --zone=public --add-port=9100/tcp
 sudo firewall-cmd --reload
 
@@ -196,8 +196,9 @@ systemd-tmpfiles --user --boot --remove --create
 
 LogInfo "Setup LazyVim"
 # https://www.lazyvim.org/installation
-[ -d "$HOME/.config/nvim" ] || 
-  git clone https://github.com/LazyVim/starter ~/.config/nvim; rm -rf ~/.config/nvim/.git
+[ -d "$HOME/.config/nvim" ] ||
+  git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
 
 LogInfo "Reboot in 5 minutes"
 sudo shutdown -r +5
